@@ -629,6 +629,8 @@ MonoBehaviour:
   inputName: {fileID: 0}
   ScoreText: {fileID: 188020406}
   GameOverText: {fileID: 474497238}
+  bestScoreText: {fileID: 0}
+  bestScoreTextmain: {fileID: 0}
 --- !u!1 &455529321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1735,6 +1737,7 @@ MonoBehaviour:
   ScoreText: {fileID: 188020406}
   GameOverText: {fileID: 474497238}
   PlayerNameText: {fileID: 73308146}
+  HighScoreText: {fileID: 2078529056}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -308,6 +308,8 @@ MonoBehaviour:
   inputName: {fileID: 1088768872}
   ScoreText: {fileID: 0}
   GameOverText: {fileID: 0}
+  bestScoreText: {fileID: 2078529056}
+  bestScoreTextmain: {fileID: 0}
 --- !u!1 &455529321
 GameObject:
   m_ObjectHideFlags: 0

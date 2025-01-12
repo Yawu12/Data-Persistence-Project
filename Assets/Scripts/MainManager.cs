@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using NUnit.Framework.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +19,11 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
-    
+
+    public Text highScoreText;
+    public Text highScoreTextmain;
+
+
     private bool m_Started = false;
     private int m_Points;
     
@@ -43,6 +48,14 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (LoadFile() !=null)
+        {
+            inputName.text = LoadFile().lastUsedPlayerName;
+
+            highScoreText.text = "Best Score: " + LoadFile().highScorePlayerName + " : " + LoadFile().highScore;
+        }
+
+
         
 
     }
@@ -82,6 +95,12 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (m_Points > LoadFile().highScore)
+        {
+            SaveHighScore();
+            UpdateHighScore();
+        }
+
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
@@ -181,6 +200,10 @@ public class MainManager : MonoBehaviour
     }
 
 
+    public void UpdateHighScore()
+    {
+        highScoreTextmain.text = "Best Score: " + LoadFile().highScorePlayerName + " : " + LoadFile().highScore;
+    }
 
 
 }

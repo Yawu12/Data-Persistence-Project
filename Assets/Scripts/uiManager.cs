@@ -15,11 +15,12 @@ public class uiManager : MonoBehaviour
     {
         MainManager.instance.ScoreText = ScoreText;
         MainManager.instance.GameOverText = GameOverText;
+        MainManager.instance.highScoreTextmain = HighScoreText;
+
 
         PlayerNameText.text = MainManager.instance.playerName;
 
-
-
+        MainManager.instance.UpdateHighScore();
     }
 
     // Update is called once per frame
@@ -27,4 +28,6 @@ public class uiManager : MonoBehaviour
     {
         
     }
+
+
 }
