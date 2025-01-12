@@ -1,6 +1,8 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,6 +12,9 @@ public class MainManager : MonoBehaviour
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
+
+    public string playerName;
+    public TMP_InputField inputName;
 
     public Text ScoreText;
     public GameObject GameOverText;
@@ -25,20 +30,6 @@ public class MainManager : MonoBehaviour
 
     private void Awake()
     {
-
-        /*
-        switch(SceneManager.GetActiveScene().name)
-        {
-            case "main":
-                SpawnBricks();
-                break;
-
-            case "menu":
-                //menu
-                break;
-        }*/
-
-
         if (instance != null)
         {
             Destroy(gameObject);
@@ -47,14 +38,12 @@ public class MainManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
-
-
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
 
     }
 
@@ -117,10 +106,81 @@ public class MainManager : MonoBehaviour
         }
     }
 
+
+
+
     public void Button_Start()
     {
+        playerName = inputName.text;
+        SaveName();
+
         SceneManager.LoadScene("main");
     }
 
-  
+
+    //___SAVEDATA_________________________________________________________________________
+    [System.Serializable]
+    public class SaveData
+    {
+        public string highScorePlayerName;
+        public int highScore;
+        public string lastUsedPlayerName;
+    }
+
+
+    //SAVE ON STARTGAME
+    public void SaveName()
+    {
+        SaveData dataToSave = new SaveData();
+
+        if (LoadFile() != null)
+        {
+            dataToSave.lastUsedPlayerName = playerName;
+
+            dataToSave.highScorePlayerName = LoadFile().highScorePlayerName;
+            dataToSave.highScore = LoadFile().highScore;
+
+        }
+        else
+        {   
+            dataToSave.lastUsedPlayerName = playerName;
+        }
+
+        string json = JsonUtility.ToJson(dataToSave); //convert savedData to string
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+
+    }
+
+    //SAVE ON HIGHSCORE
+    public void SaveHighScore()
+    {
+        SaveData dataToSave = new SaveData();
+        dataToSave.highScorePlayerName = playerName;
+        dataToSave.highScore = m_Points;
+        dataToSave.lastUsedPlayerName = playerName;
+
+        string json = JsonUtility.ToJson(dataToSave); //convert savedData to string
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    //LOAD FILE
+    public SaveData LoadFile()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        Debug.Log(path);
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData loadedData = JsonUtility.FromJson<SaveData>(json);
+            return loadedData;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+
+
+
 }
